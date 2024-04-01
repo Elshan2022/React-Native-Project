@@ -5,10 +5,12 @@ import { View, StyleSheet, ToastAndroid } from "react-native";
 import LoginAnimation from "../components/LoginAnimation";
 import CustomButton from "../components/Button";
 import { StatusBar } from "expo-status-bar";
+import * as React from "react";
 import { login } from "../service/LoginService";
 import { saveToken } from "../cache/TokenCache";
+import { LoginProp } from "../navigation/AppStack";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }: LoginProp) => {
   const [email, onChangeEmail] = useState("");
   const [password, onChangePassword] = useState("");
   const [isValidEmail, onEmailError] = useState(true);
@@ -74,6 +76,7 @@ const LoginScreen = () => {
                 const token = response["token"] as string;
                 saveToken(token);
                 showToast("You logged successfully");
+                navigation.navigate("Home");
               } catch (error) {
                 showToast(`${error}`);
               }
