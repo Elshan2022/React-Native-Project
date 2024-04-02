@@ -1,4 +1,5 @@
 import { View, StyleSheet, Dimensions, Text } from "react-native";
+import { colors } from "../theme/colors/colors";
 
 type THeader = {
   title: string;
@@ -18,7 +19,7 @@ const screenWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: "#6c25be",
+    backgroundColor: colors.primary,
     height: 80,
     width: screenWidth,
     borderBottomLeftRadius: 20,
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    color: "#fff",
+    color: colors.white,
     fontWeight: "600",
   },
 });

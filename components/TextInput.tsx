@@ -1,4 +1,5 @@
 import { StyleSheet, TextInput, View, Text } from "react-native";
+import { colors } from "../theme/colors/colors";
 
 interface ITextInput {
   placeholder: string;
@@ -26,7 +27,7 @@ export default CustomTextInput;
 
 const styles = StyleSheet.create({
   errorText: {
-    color: "#F60C0C",
+    color: colors.red,
     fontSize: 12,
     marginLeft: 16,
     marginTop: -10,
@@ -37,7 +38,8 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     padding: 10,
     borderRadius: 10,
-    borderColor: "#6c25be",
+    backgroundColor: colors.white,
+    borderColor: colors.primary,
     fontSize: 14,
   },
 });

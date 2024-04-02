@@ -1,11 +1,15 @@
-import { View, Text } from "react-native";
+import { View, Text, Dimensions, StyleSheet } from "react-native";
+import HomeHeader from "../components/HomeHeader";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+const width = Dimensions.get("window").width;
 
 const HomeScreen = () => {
-  return (
-    <View>
-      <Text>Home screen</Text>
-    </View>
-  );
+  return <View style={styles.root}>{<HomeHeader />}</View>;
 };
 
 export default HomeScreen;
+
+const styles = StyleSheet.create({
+  root: {},
+});
