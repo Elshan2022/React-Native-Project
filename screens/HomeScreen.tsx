@@ -1,11 +1,19 @@
-import { View, Text, Dimensions, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import HomeHeader from "../components/HomeHeader";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { HomeProp } from "../navigation/AppStack";
 
-const width = Dimensions.get("window").width;
-
-const HomeScreen = () => {
-  return <View style={styles.root}>{<HomeHeader />}</View>;
+const HomeScreen = ({ navigation }: HomeProp) => {
+  return (
+    <View style={styles.root}>
+      {
+        <HomeHeader
+          onLogout={() => {
+            navigation.navigate("Login");
+          }}
+        />
+      }
+    </View>
+  );
 };
 
 export default HomeScreen;

@@ -8,16 +8,30 @@ import {
 import { colors } from "../theme/colors/colors";
 import Logo from "../assets/svg/logout.svg";
 import CustomTextInput from "./TextInput";
+import CustomModal from "./Modal";
+import { useState } from "react";
+import { deleteToken } from "../cache/TokenCache";
 
 const width = Dimensions.get("window").width;
 
-const HomeHeader = () => {
+interface IHomeHeader {
+  onLogout: () => void;
+}
+
+const HomeHeader = (prob: IHomeHeader) => {
+  const [isVisible, setVisible] = useState(false);
+  const toggleVisibility = () => setVisible(!isVisible);
+
   return (
     <View style={styles.header}>
       <View style={styles.headerComponents}>
         <Text style={styles.title}>Recipe finder</Text>
         <View style={styles.logoContainer}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity
+            onPress={() => {
+              toggleVisibility();
+            }}
+          >
             <Logo width={35} height={35} color={colors.white} />
           </TouchableOpacity>
         </View>
@@ -27,6 +41,17 @@ const HomeHeader = () => {
           console.log("Search value", value);
         }}
         placeholder={"Search"}
+      />
+      <CustomModal
+        alertMessage="Do you want to log out ?"
+        onCancel={() => {
+          setVisible(false);
+        }}
+        onConfirm={async () => {
+          await deleteToken();
+          prob.onLogout();
+        }}
+        isVisible={isVisible}
       />
     </View>
   );
