@@ -9,7 +9,7 @@ import * as React from "react";
 import { login } from "../service/LoginService";
 import { saveToken } from "../cache/TokenCache";
 import { LoginProp } from "../navigation/AppStack";
-
+import { CommonActions, useFocusEffect } from "@react-navigation/native";
 
 const LoginScreen = ({ navigation }: LoginProp) => {
   const [email, onChangeEmail] = useState("");
@@ -77,7 +77,12 @@ const LoginScreen = ({ navigation }: LoginProp) => {
                 const token = response["token"] as string;
                 saveToken(token);
                 showToast("You logged successfully");
-                navigation.navigate("Home");
+                navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: "Home" }],
+                  })
+                );
               } catch (error) {
                 showToast(`${error}`);
               }
