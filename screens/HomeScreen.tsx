@@ -5,6 +5,8 @@ import {
   FlatList,
   Image,
   ToastAndroid,
+  ActivityIndicator,
+  Pressable,
 } from "react-native";
 import HomeHeader from "../components/HomeHeader";
 import { HomeProp } from "../navigation/AppStack";
@@ -14,33 +16,56 @@ import { useEffect, useState } from "react";
 
 const HomeScreen = ({ navigation }: HomeProp) => {
   const [recipes, setRecipes] = useState<IRecipeInterface[]>([]);
+  const [isImageLoading, setImage] = useState<boolean>(true);
+  const [isLoading, setLoading] = useState<boolean>(true);
 
   const fetchRecipes = async () => {
+    setLoading(true);
     try {
       const data = await getRecipes();
       setRecipes(data);
     } catch (e) {
       ToastAndroid.show(`${e}`, ToastAndroid.LONG);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
     fetchRecipes();
-  });
+  }, []);
 
   const renderRecipeItem = ({ item }: { item: IRecipeInterface }) => (
-    <View style={styles.renderItem}>
-      {
-        <Image
-          style={styles.image}
-          source={{ uri: item.image }}
-          resizeMode="cover"
-        />
-      }
-      <View style={styles.itemTitleContainer}>
-        <Text numberOfLines={2} style={styles.itemTitleText}>{item.title}</Text>
+    <Pressable
+      onPress={() => {
+        navigation.navigate("Detail", { id: item.id });
+      }}
+    >
+      <View style={styles.renderItem}>
+        <View>
+          {isImageLoading && (
+            <ActivityIndicator
+              style={styles.image}
+              size="large"
+              color={colors.primary}
+            />
+          )}
+          <Image
+            style={styles.image}
+            source={{ uri: item.image }}
+            resizeMode="cover"
+            onLoad={() => {
+              setImage(false);
+            }}
+          />
+        </View>
+
+        <View style={styles.itemTitleContainer}>
+          <Text numberOfLines={2} style={styles.itemTitleText}>
+            {item.title}
+          </Text>
+        </View>
       </View>
-    </View>
+    </Pressable>
   );
 
   return (
@@ -56,13 +81,16 @@ const HomeScreen = ({ navigation }: HomeProp) => {
         <Text style={styles.title}>Delicious Recipes </Text>
         <Text style={styles.subtitle}>with features </Text>
         <View style={styles.body}>
-          {
-            <FlatList
-              data={recipes}
-              numColumns={2}
-              renderItem={renderRecipeItem}
-            />
-          }
+          {isLoading && (
+            <View style={styles.indicator}>
+              <ActivityIndicator size={"large"} color={colors.primary} />
+            </View>
+          )}
+          <FlatList
+            data={recipes}
+            numColumns={2}
+            renderItem={renderRecipeItem}
+          />
         </View>
       </View>
     </View>
@@ -72,6 +100,11 @@ const HomeScreen = ({ navigation }: HomeProp) => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+  indicator: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   image: {
     width: 173,
     height: 150,
