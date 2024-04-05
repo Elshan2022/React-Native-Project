@@ -13,6 +13,7 @@ import { HomeProp } from "../navigation/AppStack";
 import { colors } from "../theme/colors/colors";
 import { IRecipeInterface, getRecipes } from "../service/RecipesService";
 import { useEffect, useState } from "react";
+import { StatusBar } from "expo-status-bar";
 
 const HomeScreen = ({ navigation }: HomeProp) => {
   const [recipes, setRecipes] = useState<IRecipeInterface[]>([]);
@@ -70,6 +71,7 @@ const HomeScreen = ({ navigation }: HomeProp) => {
 
   return (
     <View>
+      <StatusBar style="light" />
       {
         <HomeHeader
           onLogout={() => {

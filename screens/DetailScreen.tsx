@@ -15,6 +15,7 @@ import { IRecipeResponseId, getRecipeById } from "../service/RecipeById";
 import { colors } from "../theme/colors/colors";
 import BackButton from "../assets/svg/back.svg";
 import TitleContainer from "../components/TitleContainer";
+import { StatusBar } from "expo-status-bar";
 
 const height = Dimensions.get("window").height;
 
@@ -49,11 +50,11 @@ export const DetailScreen = ({ route, navigation }: DetailProb) => {
   }, [id]);
 
   const getSteps = () => {
-    return recipe?.method.map((step) => {
+    return recipe?.method.map((step, index) => {
       const keys = Object.keys(step);
       const values = Object.values(step);
       return (
-        <View style={styles.step}>
+        <View key={index} style={styles.step}>
           <Text style={styles.stepKey}>{keys}</Text>
           <Text style={styles.descriptionStyle}>{values}</Text>
         </View>
@@ -62,13 +63,18 @@ export const DetailScreen = ({ route, navigation }: DetailProb) => {
   };
 
   const getIngredients = () => {
-    return recipe?.ingredients.map((value) => {
-      return <Text style={styles.commonTextStyle}>{value}</Text>;
+    return recipe?.ingredients.map((value, index) => {
+      return (
+        <Text key={index} style={styles.commonTextStyle}>
+          {value}
+        </Text>
+      );
     });
   };
 
   return (
-    <View style={styles.root}>
+    <View  style={styles.root}>
+      <StatusBar style="light"/>
       {isLoading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={colors.primary} />
