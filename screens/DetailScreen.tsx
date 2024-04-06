@@ -73,8 +73,8 @@ export const DetailScreen = ({ route, navigation }: DetailProb) => {
   };
 
   return (
-    <View  style={styles.root}>
-      <StatusBar style="light"/>
+    <View style={styles.root}>
+      <StatusBar style="light" />
       {isLoading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={colors.primary} />

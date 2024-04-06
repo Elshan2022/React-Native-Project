@@ -14,17 +14,19 @@ import { colors } from "../theme/colors/colors";
 import { IRecipeInterface, getRecipes } from "../service/RecipesService";
 import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
+import { useStore } from "zustand";
+import { useDataStore } from "../stores/RecipeStore";
 
 const HomeScreen = ({ navigation }: HomeProp) => {
-  const [recipes, setRecipes] = useState<IRecipeInterface[]>([]);
   const [isImageLoading, setImage] = useState<boolean>(true);
   const [isLoading, setLoading] = useState<boolean>(true);
+  const recipesStore = useDataStore();
 
   const fetchRecipes = async () => {
     setLoading(true);
     try {
       const data = await getRecipes();
-      setRecipes(data);
+      recipesStore.setRecipes(data);
     } catch (e) {
       ToastAndroid.show(`${e}`, ToastAndroid.LONG);
     }
@@ -89,7 +91,7 @@ const HomeScreen = ({ navigation }: HomeProp) => {
             </View>
           )}
           <FlatList
-            data={recipes}
+            data={recipesStore.recipes}
             numColumns={2}
             renderItem={renderRecipeItem}
           />

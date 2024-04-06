@@ -11,6 +11,7 @@ import CustomTextInput from "./TextInput";
 import CustomModal from "./Modal";
 import { useState } from "react";
 import { deleteToken } from "../cache/TokenCache";
+import { useDataStore } from "../stores/RecipeStore";
 
 const width = Dimensions.get("window").width;
 
@@ -21,6 +22,7 @@ interface IHomeHeader {
 const HomeHeader = (prob: IHomeHeader) => {
   const [isVisible, setVisible] = useState(false);
   const toggleVisibility = () => setVisible(!isVisible);
+  const store = useDataStore();
 
   return (
     <View style={styles.header}>
@@ -38,7 +40,7 @@ const HomeHeader = (prob: IHomeHeader) => {
       </View>
       <CustomTextInput
         onChangeText={(value) => {
-          console.log("Search value", value);
+          store.searchRecipe(value, store.recipes);
         }}
         placeholder={"Search"}
       />
