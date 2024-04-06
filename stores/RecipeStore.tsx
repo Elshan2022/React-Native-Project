@@ -3,7 +3,7 @@ import { IRecipeInterface } from "../service/RecipesService";
 
 type TDataStore = {
   recipes: Array<IRecipeInterface>;
-  originalRecipes: Array<IRecipeInterface>; // Add originalRecipes property
+  originalRecipes: Array<IRecipeInterface>;
   setRecipes: (data: Array<IRecipeInterface>) => void;
   searchRecipe: (query: string | null, recipes: IRecipeInterface[]) => void;
 };
